@@ -54,22 +54,23 @@ def plot(df=[]):
 	//console.log(cfdata)
 	"""
 	end="""})"""
-	#print(js.replace('{data}',df.reset_index().to_json(orient='index')))
+	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
 	#print(js)
 	chart="""
+	
 	var dimType = cf.dimension(function(d) {
 	return d.city;
   	});
   	var gpType = dimType.group().reduceCount();
   	var chart_1_obj = dc.pieChart('#chart_1'); 
 	chart_1_obj
-		.width(100)
-		.height(100)
+		.width(300)
+		.height(300)
 		.dimension(dimType)
 		.group(gpType)
 		//margins({top: 10, right: 50, bottom: 30, left: 40})
-		.cx(100/2)
-		.cy(100/2)
+		.cx(300/2)
+		.cy(300/2)
 		.innerRadius(100/10)
 		.slicesCap(5)    // è„à 3éÌÇÃÇ›ï\é¶ÇµÅAå„ÇÕÇªÇÃëºÇ∆Ç∑ÇÈ
 		.transitionDuration(500)
@@ -84,7 +85,7 @@ def plot(df=[]):
 		.render();
 	//console.log("chart");
 	"""
-	display(Javascript(begin+js.replace('{data}',df.reset_index().to_json(orient='index'))+chart+end))
+	display(Javascript(begin+js.replace('{data}',df.reset_index().to_json(orient='records'))+chart+end))
 
 def check():
 	js="""
