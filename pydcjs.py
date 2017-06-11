@@ -17,9 +17,9 @@ def load_js():
             exports: 'crossfilter'
         }
     }
-    });"""), 
+    });"""),
     HTML('<link href="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.min.css" rel="stylesheet" type="text/css">'))
-    
+
 def figure(n=4):
 	for ii in np.arange(1,n+1):
 		body="""<body>"""
@@ -28,7 +28,7 @@ def figure(n=4):
 		print "figure"+str(ii)
 		#print body+html+body_post
 		display(HTML(body+html+body_post))
-		
+
 def test():
 	display(Javascript("""
 	require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {
@@ -46,50 +46,106 @@ def test():
 	})
 	"""))
 
-def plot(df=[]):
+def set_df(df):
 	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
 	js="""
-	var cfdata={data}
-	var cf = crossfilter(cfdata);
-	//console.log(cfdata)
+	if (typeof window.cf !== 'undefined') {
+	} else {
+	window.cfdata={data}
+	window.cf = crossfilter(cfdata);
+	}
 	"""
+	end="""})"""
+	display(Javascript(begin\
+	+js.replace('{data}',df.reset_index().to_json(orient='records'))\
+	+end))
+	print df.columns
+
+def pieChart(figure=1,width=200,height=200,dim='',group='Count'\
+			,cx=100,cy=100,innerRadius=10,slicesCap=5,transitionDuration=500):
+	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
 	end="""})"""
 	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
 	#print(js)
 	chart="""
-	
 	var dimType = cf.dimension(function(d) {
-	return d.city;
-  	});
-  	var gpType = dimType.group().reduceCount();
-  	var chart_1_obj = dc.pieChart('#chart_1'); 
-	chart_1_obj
-		.width(300)
-		.height(300)
+	return d.{dim};
+	});
+	var gpType = dimType.group().reduceCount();
+	var chart_{figure}_obj = dc.pieChart('#chart_{figure}');
+	chart_{figure}_obj
+		.width({width})
+		.height({height})
 		.dimension(dimType)
 		.group(gpType)
 		//margins({top: 10, right: 50, bottom: 30, left: 40})
-		.cx(300/2)
-		.cy(300/2)
-		.innerRadius(100/10)
-		.slicesCap(5)    // è„à 3éÌÇÃÇ›ï\é¶ÇµÅAå„ÇÕÇªÇÃëºÇ∆Ç∑ÇÈ
+		.cx({cx})
+		.cy({cy})
+		.innerRadius({innerRadius})
+		.slicesCap({slicesCap})
 		.transitionDuration(500)
 		.ordering(function(t){
 		return -t.value;
 		})
 		.legend(dc.legend())
 		.label(function(d) {
-	  	//console.log('label', d);
-	  	return d.key + ': ' + d.value;
+		return d.key + ': ' + d.value;
 		})
 		.render();
-	//console.log("chart");
 	"""
-	display(Javascript(begin+js.replace('{data}',df.reset_index().to_json(orient='records'))+chart+end))
+	display(Javascript(begin\
+	+chart\
+	.replace('{figure}',str(figure))\
+	.replace('{dim}',str(dim))\
+	.replace('{width}',str(width))\
+	.replace('{height}',str(height))\
+	.replace('{cx}',str(cx))\
+	.replace('{cy}',str(cy))\
+	.replace('{innerRadius}',str(innerRadius))\
+	.replace('{slicesCap}',str(slicesCap))\
+	.replace('{transitionDuration}',str(transitionDuration))\
+	+end))
+
+def rowChart(figure=1,width=200,height=200,dim='',group='Count'\
+			,xticks=4,elasticX='true',transitionDuration=500):
+	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
+	end="""})"""
+	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
+	#print(js)
+	chart="""
+	var dimType = cf.dimension(function(d) {
+	return d.{dim};
+	});
+	var gpType = dimType.group().reduceCount();
+	var chart_{figure}_obj = dc.rowChart('#chart_{figure}');
+	chart_{figure}_obj
+		.width({width})
+		.height({height})
+		.dimension(dimType)
+		.group(gpType)
+		.transitionDuration({transitionDuration})
+		.elasticX({elasticX})
+		.ordering(function(t){
+			return -Number(t.value);
+		})
+		.legend(dc.legend())
+		.render();
+		//.xAxis().ticks({xticks});
+	"""
+	display(Javascript(begin\
+	+chart\
+	.replace('{figure}',str(figure))\
+	.replace('{dim}',str(dim))\
+	.replace('{width}',str(width))\
+	.replace('{height}',str(height))\
+	#.replace('{xticks}',str(xticks))\
+	.replace('{elasticX}',elasticX)\
+	.replace('{transitionDuration}',str(transitionDuration))\
+	+end))
 
 def check():
 	js="""
-	if (typeof variable !== 'undefined') {
+	if (typeof window.cf !== 'undefined') {
     console.log('exists!')
 	} else {
 	console.log('no!')
