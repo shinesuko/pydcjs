@@ -18,16 +18,18 @@ def load_js():
         }
     }
     });"""),
-    HTML('<link href="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.min.css" rel="stylesheet" type="text/css">'))
+    HTML('<link href="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.min.css" rel="stylesheet" type="text/css">'),
+    HTML('<link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/components/grid.min.css" rel="stylesheet" type="text/css">'))
 
 def figure(n=4):
+	body="""<body>"""
+	body_post="""</body>"""
+	html=""
 	for ii in np.arange(1,n+1):
-		body="""<body>"""
-		body_post="""</body>"""
-		html="""<div id="chart_{num}"></div>""".format(num=ii)
-		print "figure"+str(ii)
-		#print body+html+body_post
-		display(HTML(body+html+body_post))
+		html+="""<div id="chart_{num}"></div>""".format(num=ii)
+	#print "figure"+str(ii)
+	#print body+html+body_post
+	display(HTML(body+html+body_post))
 
 def test():
 	display(Javascript("""
@@ -62,12 +64,16 @@ def set_df(df):
 	print df.columns
 
 def pieChart(figure=1,width=200,height=200,dim='',group='Count'\
-			,cx=100,cy=100,innerRadius=10,slicesCap=5,transitionDuration=500):
+			,cx=100,cy=100,innerRadius=10,slicesCap=5,transitionDuration=500,radius=100):
 	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
 	end="""})"""
 	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
 	#print(js)
 	chart="""
+	d3.select("#chart_{figure}")
+		.append("text")
+		.text("pieCart: {dim}");
+	
 	var dimType = cf.dimension(function(d) {
 	return d.{dim};
 	});
@@ -78,7 +84,7 @@ def pieChart(figure=1,width=200,height=200,dim='',group='Count'\
 		.height({height})
 		.dimension(dimType)
 		.group(gpType)
-		//margins({top: 10, right: 50, bottom: 30, left: 40})
+		.radius({radius})
 		.cx({cx})
 		.cy({cy})
 		.innerRadius({innerRadius})
@@ -99,6 +105,7 @@ def pieChart(figure=1,width=200,height=200,dim='',group='Count'\
 	.replace('{dim}',str(dim))\
 	.replace('{width}',str(width))\
 	.replace('{height}',str(height))\
+	.replace('{radius}',str(radius))\
 	.replace('{cx}',str(cx))\
 	.replace('{cy}',str(cy))\
 	.replace('{innerRadius}',str(innerRadius))\
@@ -106,13 +113,281 @@ def pieChart(figure=1,width=200,height=200,dim='',group='Count'\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
 
-def rowChart(figure=1,width=200,height=200,dim='',group='Count'\
-			,xticks=4,elasticX='true',transitionDuration=500):
+def barChart(figure=1,width=200,height=200,dim='',group='Count'\
+			,centerBar='true',xlim=[0,100],ylim=[0,100],gap=10,xticks=5,yticks=5,xlabel=' ',ylabel=' ',elasticX='true',elasticY='true',transitionDuration=500,HorizontalGrid='true',VerticalGrid='true'):
+	x_min=xlim[0]
+	x_max=xlim[1]
+	y_min=ylim[0]
+	y_max=ylim[1]
 	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
 	end="""})"""
 	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
 	#print(js)
 	chart="""
+	d3.select("#chart_{figure}")
+		.append("text")
+		.text("barCart: {dim}");
+	var dimType = cf.dimension(function(d) {
+	return d.{dim};
+	});
+	var gpType = dimType.group().reduceCount();
+	var chart_{figure}_obj = dc.barChart('#chart_{figure}');
+	chart_{figure}_obj
+		.width({width})
+		.height({height})
+		.dimension(dimType)
+		.group(gpType)
+		.transitionDuration({transitionDuration})
+		.centerBar({centerBar})
+		.gap({gap})
+		.x(d3.scale.linear().domain([{x_min},{x_max}]))
+		.y(d3.scale.linear().domain([{y_min},{y_max}]))
+		.renderHorizontalGridLines({HorizontalGrid})
+		.renderVerticalGridLines({VerticalGrid})
+		.render()
+		.yAxisLabel("{ylabel}")
+		.xAxisLabel("{xlabel}")
+		//.xAxis().ticks({xticks})
+		//.yAxis().ticks({xticks})
+		.elasticY({elasticY});
+		//.elasticX({elasticX});
+	dc.renderAll();
+	"""
+	display(Javascript(begin\
+	+chart\
+	.replace('{figure}',str(figure))\
+	.replace('{dim}',str(dim))\
+	.replace('{width}',str(width))\
+	.replace('{height}',str(height))\
+	.replace('{centerBar}',centerBar)\
+	.replace('{gap}',str(gap))\
+	.replace('{x_min}',str(x_min))\
+	.replace('{x_max}',str(x_max))\
+	.replace('{y_min}',str(y_min))\
+	.replace('{y_max}',str(y_max))\
+	.replace('{VerticalGrid}',VerticalGrid)\
+	.replace('{HorizontalGrid}',HorizontalGrid)\
+	#.replace('{xticks}',str(xticks))\
+	#.replace('{yticks}',str(yticks))\
+	.replace('{xlabel}',str(xlabel))\
+	.replace('{ylabel}',str(ylabel))\
+	#.replace('{elasticX}',elasticX)\
+	.replace('{elasticY}',elasticY)\
+	.replace('{transitionDuration}',str(transitionDuration))\
+	+end))
+
+def lineChart(figure=1,width=200,height=200,dim='',group='Count'\
+			,xlim=[0,100],ylim=[0,100],xticks=5,yticks=5,xlabel=' ',ylabel=' '\
+			,elasticX='true',elasticY='true',transitionDuration=500,\
+			HorizontalGrid='true',VerticalGrid='true',renderArea='false'):
+	x_min=xlim[0]
+	x_max=xlim[1]
+	y_min=ylim[0]
+	y_max=ylim[1]
+	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
+	end="""})"""
+	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
+	#print(js)
+	chart="""
+	d3.select("#chart_{figure}")
+		.append("text")
+		.text("lineCart: {dim}");
+	var dimType = cf.dimension(function(d) {
+	return d.{dim};
+	});
+	var gpType = dimType.group().reduceCount();
+	var chart_{figure}_obj = dc.lineChart('#chart_{figure}');
+	chart_{figure}_obj
+		.width({width})
+		.height({height})
+		.dimension(dimType)
+		.group(gpType)
+		.transitionDuration({transitionDuration})
+		.x(d3.scale.linear().domain([{x_min},{x_max}]))
+		.y(d3.scale.linear().domain([{y_min},{y_max}]))
+		.renderHorizontalGridLines({HorizontalGrid})
+		.renderVerticalGridLines({VerticalGrid})
+		.renderArea({renderArea})
+		.render()
+		.yAxisLabel("{ylabel}")
+		.xAxisLabel("{xlabel}")
+		//.xAxis().ticks({xticks})
+		//.yAxis().ticks({xticks})
+		.elasticY({elasticY});
+		//.elasticX({elasticX});
+	dc.renderAll();
+	"""
+	display(Javascript(begin\
+	+chart\
+	.replace('{figure}',str(figure))\
+	.replace('{dim}',str(dim))\
+	.replace('{width}',str(width))\
+	.replace('{height}',str(height))\
+	.replace('{x_min}',str(x_min))\
+	.replace('{x_max}',str(x_max))\
+	.replace('{y_min}',str(y_min))\
+	.replace('{y_max}',str(y_max))\
+	.replace('{VerticalGrid}',VerticalGrid)\
+	.replace('{HorizontalGrid}',HorizontalGrid)\
+	.replace('{renderArea}',renderArea)\
+	#.replace('{xticks}',str(xticks))\
+	#.replace('{yticks}',str(yticks))\
+	.replace('{xlabel}',xlabel)\
+	.replace('{ylabel}',ylabel)\
+	#.replace('{elasticX}',elasticX)\
+	.replace('{elasticY}',elasticY)\
+	.replace('{transitionDuration}',str(transitionDuration))\
+	+end))
+
+def scatterPlot(figure=1,width=200,height=200,dim=['',''],group='Count'\
+			,xlim=[0,100],ylim=[0,100],symbolSize=5,elasticY='true',transitionDuration=500,\
+			HorizontalGrid='true',VerticalGrid='true',xlabel='x',ylabel='y'):
+	x_min = xlim[0]
+	x_max = xlim[1]
+	y_min = ylim[0]
+	y_max = ylim[1]
+	dim1  = dim[0]
+	dim2  = dim[1]
+	
+	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
+	end="""})"""
+	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
+	#print(js)
+	chart="""
+	d3.select("#chart_{figure}")
+		.append("text")
+		.text("scatterPlott: {dim1},{dim2}");
+	var dimType = cf.dimension(function(d) {
+	return [d.{dim1}, d.{dim2}];
+	});
+	var gpType = dimType.group().reduceCount();
+	var chart_{figure}_obj = dc.scatterPlot('#chart_{figure}');
+	chart_{figure}_obj
+		.width({width})
+		.height({height})
+		.dimension(dimType)
+		.group(gpType)
+		.transitionDuration({transitionDuration})
+		.x(d3.scale.linear().domain([{x_min},{x_max}]))
+		.y(d3.scale.linear().domain([{y_min},{y_max}]))
+		.renderHorizontalGridLines({HorizontalGrid})
+		.renderVerticalGridLines({VerticalGrid})
+		.brushOn(true)
+		.xAxisLabel("{xlabel}")
+		.yAxisLabel("{ylabel}")
+		.symbolSize({symbolSize})
+		//.clipPadding(10)
+		.render()
+		.elasticY({elasticY});
+		//.elasticX({elasticX});
+	dc.renderAll();
+	"""
+	display(Javascript(begin\
+	+chart\
+	.replace('{figure}',str(figure))\
+	.replace('{dim1}',str(dim1))\
+	.replace('{dim2}',str(dim2))\
+	.replace('{width}',str(width))\
+	.replace('{height}',str(height))\
+	.replace('{x_min}',str(x_min))\
+	.replace('{x_max}',str(x_max))\
+	.replace('{y_min}',str(y_min))\
+	.replace('{y_max}',str(y_max))\
+	.replace('{VerticalGrid}',VerticalGrid)\
+	.replace('{HorizontalGrid}',HorizontalGrid)\
+	.replace('{symbolSize}',str(symbolSize))\
+	.replace('{elasticY}',elasticY)\
+	.replace('{xlabel}',str(xlabel))\
+	.replace('{ylabel}',str(ylabel))\
+	.replace('{transitionDuration}',str(transitionDuration))\
+	+end))
+
+def bubbleChart(figure=1,width=200,height=200,dim=['','',''],group='Count'\
+			,xlim=[0,100],ylim=[0,100],rlim=[1,100],elasticY='true',transitionDuration=500,\
+			HorizontalGrid='true',VerticalGrid='true',xlabel='x',ylabel='y'):
+	x_min = xlim[0]
+	x_max = xlim[1]
+	y_min = ylim[0]
+	y_max = ylim[1]
+	r_min = rlim[0]
+	r_max = rlim[1]
+	dim1  = dim[0]
+	dim2  = dim[1]
+	dim3  = dim[2]
+	
+	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
+	end="""})"""
+	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
+	#print(js)
+	chart="""
+	d3.select("#chart_{figure}")
+		.append("text")
+		.text("bubbleChart: {dim1},{dim2},{dim3}");
+	var dimType = cf.dimension(function(d) {
+	return [d.{dim1}, d.{dim2}, d.{dim3}];
+	});
+	var gpType = dimType.group().reduceCount();
+	var chart_{figure}_obj = dc.bubbleChart('#chart_{figure}');
+	chart_{figure}_obj
+		.width({width})
+		.height({height})
+		.dimension(dimType)
+		.group(gpType)
+		.transitionDuration({transitionDuration})
+		.keyAccessor(function(d){return d.key[0];})
+		.valueAccessor(function(d){return d.key[1];})
+		.radiusValueAccessor(function(d){return d.value})
+		//.elasticRadius(true)
+		.x(d3.scale.linear().domain([{x_min},{x_max}]))
+		.y(d3.scale.linear().domain([{y_min},{y_max}]))
+		.renderHorizontalGridLines({HorizontalGrid})
+		.renderVerticalGridLines({VerticalGrid})
+		.brushOn(true)
+		.r(d3.scale.log().domain([{r_min},{r_max}]))
+		.xAxisLabel("{xlabel}")
+		.yAxisLabel("{ylabel}")
+		//.clipPadding(10)
+		.label(function(d) {
+		return '('+ d.key[0] + ',' + d.key[1] + ')' + ':' + d.value;
+		//return d.value;
+		})
+		.render()
+		.elasticY({elasticY});
+		//.elasticX({elasticX});
+	dc.renderAll();
+	"""
+	display(Javascript(begin\
+	+chart\
+	.replace('{figure}',str(figure))\
+	.replace('{dim1}',str(dim1))\
+	.replace('{dim2}',str(dim2))\
+	.replace('{dim3}',str(dim3))\
+	.replace('{width}',str(width))\
+	.replace('{height}',str(height))\
+	.replace('{x_min}',str(x_min))\
+	.replace('{x_max}',str(x_max))\
+	.replace('{y_min}',str(y_min))\
+	.replace('{y_max}',str(y_max))\
+	.replace('{r_min}',str(r_min))\
+	.replace('{r_max}',str(r_max))\
+	.replace('{VerticalGrid}',VerticalGrid)\
+	.replace('{HorizontalGrid}',HorizontalGrid)\
+	.replace('{elasticY}',elasticY)\
+	.replace('{xlabel}',str(xlabel))\
+	.replace('{ylabel}',str(ylabel))\
+	.replace('{transitionDuration}',str(transitionDuration))\
+	+end))
+
+def rowChart(figure=1,width=200,height=200,dim='',group='Count'\
+			,xticks=4,elasticX='true',transitionDuration=500,gap=10):
+	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
+	end="""})"""
+	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
+	#print(js)
+	chart="""
+	d3.select("#chart_{figure}")
+		.append("text")
+		.text("rowCart: {dim}");
 	var dimType = cf.dimension(function(d) {
 	return d.{dim};
 	});
@@ -125,12 +400,13 @@ def rowChart(figure=1,width=200,height=200,dim='',group='Count'\
 		.group(gpType)
 		.transitionDuration({transitionDuration})
 		.elasticX({elasticX})
-		.ordering(function(t){
-			return -Number(t.value);
-		})
 		.legend(dc.legend())
-		.render();
+		//.gap({gap})
+		//.xAxisLabel("{xlabel}")
+		.render()
+		//.yAxisLabel("{ylabel}");
 		//.xAxis().ticks({xticks});
+	dc.renderAll();
 	"""
 	display(Javascript(begin\
 	+chart\
@@ -138,8 +414,11 @@ def rowChart(figure=1,width=200,height=200,dim='',group='Count'\
 	.replace('{dim}',str(dim))\
 	.replace('{width}',str(width))\
 	.replace('{height}',str(height))\
+	#.replace('{xlabel}',str(xlabel))\
+	#.replace('{ylabel}',str(ylabel))\
 	#.replace('{xticks}',str(xticks))\
 	.replace('{elasticX}',elasticX)\
+	.replace('{gap}',str(gap))\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
 
