@@ -55,6 +55,7 @@ def set_df(df):
 	} else {
 	window.cfdata={data}
 	window.cf = crossfilter(cfdata);
+	console.log(cfdata)
 	}
 	"""
 	end="""})"""
@@ -74,16 +75,16 @@ def pieChart(figure=1,width=200,height=200,dim='',group='Count'\
 		.append("text")
 		.text("pieCart: {dim}");
 	
-	var dimType = cf.dimension(function(d) {
+	var dim = cf.dimension(function(d) {
 	return d.{dim};
 	});
-	var gpType = dimType.group().reduceCount();
+	var gp = dim.group().reduceCount();
 	var chart_{figure}_obj = dc.pieChart('#chart_{figure}');
 	chart_{figure}_obj
 		.width({width})
 		.height({height})
-		.dimension(dimType)
-		.group(gpType)
+		.dimension(dim)
+		.group(gp)
 		.radius({radius})
 		.cx({cx})
 		.cy({cy})
@@ -127,16 +128,16 @@ def barChart(figure=1,width=200,height=200,dim='',group='Count'\
 	d3.select("#chart_{figure}")
 		.append("text")
 		.text("barCart: {dim}");
-	var dimType = cf.dimension(function(d) {
+	var dim = cf.dimension(function(d) {
 	return d.{dim};
 	});
-	var gpType = dimType.group().reduceCount();
+	var gp = dim.group().reduceCount();
 	var chart_{figure}_obj = dc.barChart('#chart_{figure}');
 	chart_{figure}_obj
 		.width({width})
 		.height({height})
-		.dimension(dimType)
-		.group(gpType)
+		.dimension(dim)
+		.group(gp)
 		.transitionDuration({transitionDuration})
 		.centerBar({centerBar})
 		.gap({gap})
@@ -192,16 +193,16 @@ def lineChart(figure=1,width=200,height=200,dim='',group='Count'\
 	d3.select("#chart_{figure}")
 		.append("text")
 		.text("lineCart: {dim}");
-	var dimType = cf.dimension(function(d) {
+	var dim = cf.dimension(function(d) {
 	return d.{dim};
 	});
-	var gpType = dimType.group().reduceCount();
+	var gp = dim.group().reduceCount();
 	var chart_{figure}_obj = dc.lineChart('#chart_{figure}');
 	chart_{figure}_obj
 		.width({width})
 		.height({height})
-		.dimension(dimType)
-		.group(gpType)
+		.dimension(dim)
+		.group(gp)
 		.transitionDuration({transitionDuration})
 		.x(d3.scale.linear().domain([{x_min},{x_max}]))
 		.y(d3.scale.linear().domain([{y_min},{y_max}]))
@@ -257,16 +258,16 @@ def scatterPlot(figure=1,width=200,height=200,dim=['',''],group='Count'\
 	d3.select("#chart_{figure}")
 		.append("text")
 		.text("scatterPlott: {dim1},{dim2}");
-	var dimType = cf.dimension(function(d) {
+	var dim = cf.dimension(function(d) {
 	return [d.{dim1}, d.{dim2}];
 	});
-	var gpType = dimType.group().reduceCount();
+	var gp = dim.group().reduceCount();
 	var chart_{figure}_obj = dc.scatterPlot('#chart_{figure}');
 	chart_{figure}_obj
 		.width({width})
 		.height({height})
-		.dimension(dimType)
-		.group(gpType)
+		.dimension(dim)
+		.group(gp)
 		.transitionDuration({transitionDuration})
 		.x(d3.scale.linear().domain([{x_min},{x_max}]))
 		.y(d3.scale.linear().domain([{y_min},{y_max}]))
@@ -323,16 +324,16 @@ def bubbleChart(figure=1,width=200,height=200,dim=['','',''],group='Count'\
 	d3.select("#chart_{figure}")
 		.append("text")
 		.text("bubbleChart: {dim1},{dim2},{dim3}");
-	var dimType = cf.dimension(function(d) {
+	var dim = cf.dimension(function(d) {
 	return [d.{dim1}, d.{dim2}, d.{dim3}];
 	});
-	var gpType = dimType.group().reduceCount();
+	var gp = dim.group().reduceCount();
 	var chart_{figure}_obj = dc.bubbleChart('#chart_{figure}');
 	chart_{figure}_obj
 		.width({width})
 		.height({height})
-		.dimension(dimType)
-		.group(gpType)
+		.dimension(dim)
+		.group(gp)
 		.transitionDuration({transitionDuration})
 		.keyAccessor(function(d){return d.key[0];})
 		.valueAccessor(function(d){return d.key[1];})
@@ -388,16 +389,16 @@ def rowChart(figure=1,width=200,height=200,dim='',group='Count'\
 	d3.select("#chart_{figure}")
 		.append("text")
 		.text("rowCart: {dim}");
-	var dimType = cf.dimension(function(d) {
+	var dim = cf.dimension(function(d) {
 	return d.{dim};
 	});
-	var gpType = dimType.group().reduceCount();
+	var gp = dim.group().reduceCount();
 	var chart_{figure}_obj = dc.rowChart('#chart_{figure}');
 	chart_{figure}_obj
 		.width({width})
 		.height({height})
-		.dimension(dimType)
-		.group(gpType)
+		.dimension(dim)
+		.group(gp)
 		.transitionDuration({transitionDuration})
 		.elasticX({elasticX})
 		.legend(dc.legend())
@@ -421,6 +422,102 @@ def rowChart(figure=1,width=200,height=200,dim='',group='Count'\
 	.replace('{gap}',str(gap))\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
+
+def heatmap(figure=1,width=200,height=200,dim=['','',''],group='Count'\
+			,transitionDuration=500,xlabel='x',ylabel='y',clim=[0,100],colormap=['blue','red']):
+	dim1  = dim[0]
+	dim2  = dim[1]
+	dim3  = dim[2]
+	clim1 = clim[0]
+	clim2 = clim[1]
+	color1= colormap[0]
+	color2= colormap[1]
+	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
+	end="""})"""
+	chart="""
+	var dim = cf.dimension(function(d) {
+	return [d.{dim1}, d.{dim2}];
+	});
+	var heatColorMapping = function(d){
+		return d3.scale.linear().domain([{clim1},{clim2}]).range(["{color1}","{color2}"])(d);
+	};
+	heatColorMapping.domain = function(d){
+		return [{clim1},{clim2}];
+	};
+	var gp = dim.group().reduce(
+	function(p,v){
+		++p.count;
+		p.sum+=Number(v.{dim3});
+		p.ave =p.count ? (p.sum/p.count):0;
+		return p;
+		},
+	function(p,v){
+		--p.count;
+		p.sum-=Number(v.{dim3});
+		p.ave =p.count ? (p.sum/p.count):0;
+		return p;
+		},
+	function(p){return{
+		count:0,
+		sum:0,
+		ave:0};}
+	)
+	var chart_{figure}_obj = dc.heatMap('#chart_{figure}');
+	chart_{figure}_obj
+		.width({width})
+		.height({height})
+		.dimension(dim)
+		.group(gp)
+		.keyAccessor(function(d){return +d.key[0]})
+		.valueAccessor(function(d){return +d.key[1]})
+		.colorAccessor(function(d){return +d.value.ave})
+		.colors(heatColorMapping)
+		.calculateColorDomain()
+		.transitionDuration({transitionDuration})
+		.label(function(d){
+			return [d.key[0],d.key[1],d.value.ave];
+		});
+	chart_{figure}_obj
+		//.xAxisLabel("{xlabel}")
+		//.yAxisLabel("{ylabel}")
+		.xBorderRadius(0)
+		.yBorderRadius(0)
+		.render()
+	"""
+	
+	display(Javascript(begin\
+	+chart\
+	.replace('{figure}',str(figure))\
+	.replace('{width}',str(width))\
+	.replace('{height}',str(height))\
+	.replace('{dim1}',str(dim1))\
+	.replace('{dim2}',str(dim2))\
+	.replace('{dim3}',str(dim3))\
+	.replace('{clim1}',str(clim1))\
+	.replace('{clim2}',str(clim2))\
+	.replace('{color1}',str(color1))\
+	.replace('{color2}',str(color2))\
+	.replace('{width}',str(width))\
+	.replace('{xlabel}',str(xlabel))\
+	.replace('{ylabel}',str(ylabel))\
+	.replace('{transitionDuration}',str(transitionDuration))\
+	+end))
+	
+	print chart\
+	.replace('{figure}',str(figure))\
+	.replace('{width}',str(width))\
+	.replace('{height}',str(height))\
+	.replace('{dim1}',str(dim1))\
+	.replace('{dim2}',str(dim2))\
+	.replace('{dim3}',str(dim3))\
+	.replace('{clim1}',str(clim1))\
+	.replace('{clim2}',str(clim2))\
+	.replace('{color1}',str(color1))\
+	.replace('{color2}',str(color2))\
+	.replace('{width}',str(width))\
+	.replace('{xlabel}',str(xlabel))\
+	.replace('{ylabel}',str(ylabel))\
+	.replace('{transitionDuration}',str(transitionDuration))
 
 def check():
 	js="""
