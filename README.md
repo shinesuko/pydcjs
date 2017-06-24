@@ -20,9 +20,9 @@ Git clone or download zip to your computer.
 Activate your python environment and jupyter notebook.  
 Add git folder path first in jupyter notebook like
 
-`import sys; import sys;sys.path.append('Your/folder/path')`
-`import pydcjs as dcjs`
-`import pandas as pd`
+`import sys; import sys;sys.path.append('Your/folder/path')`  
+`import pydcjs as dcjs`  
+`import pandas as pd`  
 `%reload_ext autoreload`
 
 ## Licence
