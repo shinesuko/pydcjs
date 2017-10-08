@@ -7,7 +7,7 @@ Simple binding of d3.js/dc.js/crosfilter.js to python(work in Jputer notebook en
 
 ## Demo
 
-[Exmaple(Under construction)]()
+[Exmaple](https://github.com/shinesuko/pydcjs/blob/master/20171008_pydcjs_iris_example.html)
 
 ## Environment
 
@@ -31,7 +31,7 @@ Add git folder path first in jupyter notebook like
 
 ## Author
 
-[shinesuko](https://github.com/shinesuko/pydcjs/blob/master/20171008_pydcjs_iris_example.html)
+[shinesuko](https://github.com/shinesuko)
 
 ## Acknowledgements
 Inspired by [JonasHeylen/pandas-crossfilter](https://github.com/JonasHeylen/pandas-crossfilter)
