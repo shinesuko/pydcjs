@@ -52,11 +52,13 @@ def set_df(df):
 	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
 	js="""
 	if (typeof window.cf !== 'undefined') {
+	delete window.cf
+	delete window.cfdata
 	} else {
+	}
 	window.cfdata={data}
 	window.cf = crossfilter(cfdata);
 	console.log(cfdata)
-	}
 	"""
 	end="""})"""
 	display(Javascript(begin\
@@ -71,18 +73,23 @@ def pieChart(figure=1,width=200,height=200,dim='',group='Count'\
 	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
 	#print(js)
 	chart="""
+<<<<<<< HEAD
 	d3.select("#chart_{figure}")
 		.append("text")
 		.text("pieCart: {dim}");
 
+=======
+>>>>>>> 41ba8727bfe06eb3d48d139176acc61f17c3331b
 	var dim = cf.dimension(function(d) {
 	return d.{dim};
 	});
 	var gp = dim.group().reduceCount();
 	var chart_{figure}_obj = dc.pieChart('#chart_{figure}');
 	chart_{figure}_obj
+		.title(function(d){return "pieCart: {dim}";})
 		.width({width})
 		.height({height})
+		//.margins({top: 10, right: 10, bottom: 10, left: 10})
 		.dimension(dim)
 		.group(gp)
 		.radius({radius})
@@ -125,15 +132,13 @@ def barChart(figure=1,width=200,height=200,dim='',group='Count'\
 	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
 	#print(js)
 	chart="""
-	d3.select("#chart_{figure}")
-		.append("text")
-		.text("barCart: {dim}");
 	var dim = cf.dimension(function(d) {
 	return d.{dim};
 	});
 	var gp = dim.group().reduceCount();
 	var chart_{figure}_obj = dc.barChart('#chart_{figure}');
 	chart_{figure}_obj
+		.title(function(d){return "barCart: {dim}";})
 		.width({width})
 		.height({height})
 		.dimension(dim)
@@ -177,10 +182,22 @@ def barChart(figure=1,width=200,height=200,dim='',group='Count'\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
 
-def lineChart(figure=1,width=200,height=200,dim='',group='Count'\
+def lineChart(figure=1,width=200,height=200,dim='',group=['Count','']\
 			,xlim=[0,100],ylim=[0,100],xticks=5,yticks=5,xlabel=' ',ylabel=' '\
 			,elasticX='true',elasticY='true',transitionDuration=500,\
 			HorizontalGrid='true',VerticalGrid='true',renderArea='false'):
+	gp1=group[0]
+	gp2=group[1]
+	gp="""dim.group().reduceCount()"""
+	if gp1=='Count':
+		gp="""dim.group().reduceCount()"""
+	elif gp1=='Sum':
+		gp="""dim.group().reduceSum(function(d) { return d.{gp2} })""".replace('{gp2}',str(gp2))
+		# print gp
+	# else:
+	# 	pass
+	# 	# gp="""dim.group().reduceSum(function(d){return d.{gp2};})""".replace('{gp2}',str(gp2))
+
 	x_min=xlim[0]
 	x_max=xlim[1]
 	y_min=ylim[0]
@@ -190,15 +207,13 @@ def lineChart(figure=1,width=200,height=200,dim='',group='Count'\
 	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
 	#print(js)
 	chart="""
-	d3.select("#chart_{figure}")
-		.append("text")
-		.text("lineCart: {dim}");
 	var dim = cf.dimension(function(d) {
 	return d.{dim};
 	});
-	var gp = dim.group().reduceCount();
+	var gp = {gp};
 	var chart_{figure}_obj = dc.lineChart('#chart_{figure}');
 	chart_{figure}_obj
+		.title(function(d){return "lineCart: {dim}";})
 		.width({width})
 		.height({height})
 		.dimension(dim)
@@ -231,14 +246,31 @@ def lineChart(figure=1,width=200,height=200,dim='',group='Count'\
 	.replace('{VerticalGrid}',VerticalGrid)\
 	.replace('{HorizontalGrid}',HorizontalGrid)\
 	.replace('{renderArea}',renderArea)\
-	#.replace('{xticks}',str(xticks))\
-	#.replace('{yticks}',str(yticks))\
+	.replace('{gp}',str(gp))\
 	.replace('{xlabel}',xlabel)\
 	.replace('{ylabel}',ylabel)\
 	#.replace('{elasticX}',elasticX)\
 	.replace('{elasticY}',elasticY)\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
+
+	# print chart\
+	# .replace('{figure}',str(figure))\
+	# .replace('{dim}',str(dim))\
+	# .replace('{width}',str(width))\
+	# .replace('{height}',str(height))\
+	# .replace('{x_min}',str(x_min))\
+	# .replace('{x_max}',str(x_max))\
+	# .replace('{y_min}',str(y_min))\
+	# .replace('{y_max}',str(y_max))\
+	# .replace('{VerticalGrid}',VerticalGrid)\
+	# .replace('{HorizontalGrid}',HorizontalGrid)\
+	# .replace('{renderArea}',renderArea)\
+	# .replace('{gp}',str(gp3))\
+	# .replace('{xlabel}',xlabel)\
+	# .replace('{ylabel}',ylabel)\
+	# .replace('{elasticY}',elasticY)\
+	# .replace('{transitionDuration}',str(transitionDuration))
 
 def scatterPlot(figure=1,width=200,height=200,dim=['',''],group='Count'\
 			,xlim=[0,100],ylim=[0,100],symbolSize=5,elasticY='true',transitionDuration=500,\
@@ -255,15 +287,13 @@ def scatterPlot(figure=1,width=200,height=200,dim=['',''],group='Count'\
 	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
 	#print(js)
 	chart="""
-	d3.select("#chart_{figure}")
-		.append("text")
-		.text("scatterPlott: {dim1},{dim2}");
 	var dim = cf.dimension(function(d) {
 	return [d.{dim1}, d.{dim2}];
 	});
 	var gp = dim.group().reduceCount();
 	var chart_{figure}_obj = dc.scatterPlot('#chart_{figure}');
 	chart_{figure}_obj
+		.title(function(d){return "scatterPlott: {dim1},{dim2}";})
 		.width({width})
 		.height({height})
 		.dimension(dim)
@@ -321,15 +351,13 @@ def bubbleChart(figure=1,width=200,height=200,dim=['','',''],group='Count'\
 	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
 	#print(js)
 	chart="""
-	d3.select("#chart_{figure}")
-		.append("text")
-		.text("bubbleChart: {dim1},{dim2},{dim3}");
 	var dim = cf.dimension(function(d) {
 	return [d.{dim1}, d.{dim2}, d.{dim3}];
 	});
 	var gp = dim.group().reduceCount();
 	var chart_{figure}_obj = dc.bubbleChart('#chart_{figure}');
 	chart_{figure}_obj
+		.title(function(d){return "bubbleChart: {dim1},{dim2},{dim3}";})
 		.width({width})
 		.height({height})
 		.dimension(dim)
@@ -386,15 +414,13 @@ def rowChart(figure=1,width=200,height=200,dim='',group='Count'\
 	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
 	#print(js)
 	chart="""
-	d3.select("#chart_{figure}")
-		.append("text")
-		.text("rowCart: {dim}");
 	var dim = cf.dimension(function(d) {
 	return d.{dim};
 	});
 	var gp = dim.group().reduceCount();
 	var chart_{figure}_obj = dc.rowChart('#chart_{figure}');
 	chart_{figure}_obj
+		.title(function(d){return "rowCart: {dim}";})
 		.width({width})
 		.height({height})
 		.dimension(dim)
@@ -464,6 +490,7 @@ def heatmap(figure=1,width=200,height=200,dim=['','',''],group='Count'\
 	)
 	var chart_{figure}_obj = dc.heatMap('#chart_{figure}');
 	chart_{figure}_obj
+		.title(function(d){return "heatMap: {dim1},{dim2}";})
 		.width({width})
 		.height({height})
 		.dimension(dim)
@@ -475,7 +502,7 @@ def heatmap(figure=1,width=200,height=200,dim=['','',''],group='Count'\
 		.calculateColorDomain()
 		.transitionDuration({transitionDuration})
 		.label(function(d){
-			return [d.key[0],d.key[1],d.value.ave];
+			return d.value.ave;
 		});
 	chart_{figure}_obj
 		//.xAxisLabel("{xlabel}")
@@ -502,6 +529,7 @@ def heatmap(figure=1,width=200,height=200,dim=['','',''],group='Count'\
 	.replace('{ylabel}',str(ylabel))\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
+<<<<<<< HEAD
 
 	print chart\
 	.replace('{figure}',str(figure))\
@@ -518,6 +546,8 @@ def heatmap(figure=1,width=200,height=200,dim=['','',''],group='Count'\
 	.replace('{xlabel}',str(xlabel))\
 	.replace('{ylabel}',str(ylabel))\
 	.replace('{transitionDuration}',str(transitionDuration))
+=======
+>>>>>>> 41ba8727bfe06eb3d48d139176acc61f17c3331b
 
 def check():
 	js="""
