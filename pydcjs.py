@@ -74,7 +74,7 @@ def pieChart(figure=1,width=200,height=200,dim='',group='Count'\
 	d3.select("#chart_{figure}")
 		.append("text")
 		.text("pieCart: {dim}");
-	
+
 	var dim = cf.dimension(function(d) {
 	return d.{dim};
 	});
@@ -249,7 +249,7 @@ def scatterPlot(figure=1,width=200,height=200,dim=['',''],group='Count'\
 	y_max = ylim[1]
 	dim1  = dim[0]
 	dim2  = dim[1]
-	
+
 	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
 	end="""})"""
 	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
@@ -315,7 +315,7 @@ def bubbleChart(figure=1,width=200,height=200,dim=['','',''],group='Count'\
 	dim1  = dim[0]
 	dim2  = dim[1]
 	dim3  = dim[2]
-	
+
 	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
 	end="""})"""
 	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
@@ -484,7 +484,7 @@ def heatmap(figure=1,width=200,height=200,dim=['','',''],group='Count'\
 		.yBorderRadius(0)
 		.render()
 	"""
-	
+
 	display(Javascript(begin\
 	+chart\
 	.replace('{figure}',str(figure))\
@@ -502,7 +502,7 @@ def heatmap(figure=1,width=200,height=200,dim=['','',''],group='Count'\
 	.replace('{ylabel}',str(ylabel))\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
-	
+
 	print chart\
 	.replace('{figure}',str(figure))\
 	.replace('{width}',str(width))\
