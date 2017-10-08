@@ -31,7 +31,7 @@ Add git folder path first in jupyter notebook like
 
 ## Author
 
-[shinesuko](https://github.com/shinesuko)
+[shinesuko](https://github.com/shinesuko/pydcjs/blob/master/20171008_pydcjs_iris_example.html)
 
 ## Acknowledgements
 Inspired by [JonasHeylen/pandas-crossfilter](https://github.com/JonasHeylen/pandas-crossfilter)
