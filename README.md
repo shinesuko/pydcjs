@@ -7,7 +7,7 @@ Simple binding of d3.js/dc.js/crosfilter.js to python(work in Jputer notebook en
 
 ## Demo
 
-[Exmaple](https://github.com/shinesuko/pydcjs/blob/master/20171008_pydcjs_iris_example.html)
+[Exmaple](http://nbviewer.jupyter.org/github/shinesuko/pydcjs/blob/master/20171008_pydcjs_iris_example.ipynb)
 
 ## Environment
 
