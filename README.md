@@ -15,9 +15,11 @@ python2.7.12
 Jupyter notebook  
 is conformed.
 
-## Usage
+## Installation
 `pip install -e git+https://github.com/shinesuko/pydcjs@master#egg=pydcjs`
 (Git for windows is required for Windows)
+
+## Usage
 Activate your python environment and jupyter notebook.  
 
 `import pydcjs as dcjs`  
