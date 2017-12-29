@@ -64,12 +64,15 @@ def set_df(df):
 	+end))
 	print df.columns
 
-def pieChart(figure=1,width=200,height=200,dim='',group='Count'\
+def pieChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 			,cx=100,cy=100,innerRadius=10,slicesCap=5,transitionDuration=500,radius=100):
 	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
 	end="""})"""
 	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
 	#print(js)
+	if make_fig:
+		html="""<div id="chart_{num}"></div>""".format(num=figure)
+		display(HTML(html))
 	chart="""
 	d3.select("#chart_{figure}")
 		.append("text")
@@ -114,7 +117,7 @@ def pieChart(figure=1,width=200,height=200,dim='',group='Count'\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
 
-def barChart(figure=1,width=200,height=200,dim='',group='Count'\
+def barChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 			,centerBar='true',xlim=[0,100],ylim=[0,100],gap=10,xticks=5,yticks=5,xlabel=' ',ylabel=' ',elasticX='true',elasticY='true',transitionDuration=500,HorizontalGrid='true',VerticalGrid='true'):
 	x_min=xlim[0]
 	x_max=xlim[1]
@@ -124,6 +127,9 @@ def barChart(figure=1,width=200,height=200,dim='',group='Count'\
 	end="""})"""
 	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
 	#print(js)
+	if make_fig:
+		html="""<div id="chart_{num}"></div>""".format(num=figure)
+		display(HTML(html))
 	chart="""
 	d3.select("#chart_{figure}")
 		.append("text")
@@ -177,7 +183,7 @@ def barChart(figure=1,width=200,height=200,dim='',group='Count'\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
 
-def lineChart(figure=1,width=200,height=200,dim='',group='Count'\
+def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 			,xlim=[0,100],ylim=[0,100],xticks=5,yticks=5,xlabel=' ',ylabel=' '\
 			,elasticX='true',elasticY='true',transitionDuration=500,\
 			HorizontalGrid='true',VerticalGrid='true',renderArea='false'):
@@ -189,6 +195,9 @@ def lineChart(figure=1,width=200,height=200,dim='',group='Count'\
 	end="""})"""
 	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
 	#print(js)
+	if make_fig:
+		html="""<div id="chart_{num}"></div>""".format(num=figure)
+		display(HTML(html))
 	chart="""
 	d3.select("#chart_{figure}")
 		.append("text")
@@ -240,7 +249,7 @@ def lineChart(figure=1,width=200,height=200,dim='',group='Count'\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
 
-def scatterPlot(figure=1,width=200,height=200,dim=['',''],group='Count'\
+def scatterPlot(figure=1,make_fig=False,width=200,height=200,dim=['',''],group='Count'\
 			,xlim=[0,100],ylim=[0,100],symbolSize=5,elasticY='true',transitionDuration=500,\
 			HorizontalGrid='true',VerticalGrid='true',xlabel='x',ylabel='y'):
 	x_min = xlim[0]
@@ -254,6 +263,9 @@ def scatterPlot(figure=1,width=200,height=200,dim=['',''],group='Count'\
 	end="""})"""
 	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
 	#print(js)
+	if make_fig:
+		html="""<div id="chart_{num}"></div>""".format(num=figure)
+		display(HTML(html))
 	chart="""
 	d3.select("#chart_{figure}")
 		.append("text")
@@ -303,7 +315,7 @@ def scatterPlot(figure=1,width=200,height=200,dim=['',''],group='Count'\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
 
-def bubbleChart(figure=1,width=200,height=200,dim=['','',''],group='Count'\
+def bubbleChart(figure=1,make_fig=False,width=200,height=200,dim=['','',''],group='Count'\
 			,xlim=[0,100],ylim=[0,100],rlim=[1,100],elasticY='true',transitionDuration=500,\
 			HorizontalGrid='true',VerticalGrid='true',xlabel='x',ylabel='y'):
 	x_min = xlim[0]
@@ -320,6 +332,9 @@ def bubbleChart(figure=1,width=200,height=200,dim=['','',''],group='Count'\
 	end="""})"""
 	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
 	#print(js)
+	if make_fig:
+		html="""<div id="chart_{num}"></div>""".format(num=figure)
+		display(HTML(html))
 	chart="""
 	d3.select("#chart_{figure}")
 		.append("text")
