@@ -22,14 +22,12 @@ def load_js():
     HTML('<link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/components/grid.min.css" rel="stylesheet" type="text/css">'))
 
 def figure(n=4):
-	body="""<body>"""
-	body_post="""</body>"""
 	html=""
 	for ii in np.arange(1,n+1):
 		html+="""<div id="chart_{num}"></div>""".format(num=ii)
 	#print "figure"+str(ii)
 	#print body+html+body_post
-	display(HTML(body+html+body_post))
+	display(HTML(html))
 
 def test():
 	display(Javascript("""
@@ -407,7 +405,8 @@ def rowChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 	chart="""
 	d3.select("#chart_{figure}")
 		.append("text")
-		.text("rowCart: {dim}");
+		.text("rowCart: {dim}")
+		.attr("id","chart_{figure}_text");
 	var dim = cf.dimension(function(d) {
 	return d.{dim};
 	});
@@ -452,10 +451,8 @@ def heatmap(figure=1,make_fig=False,width=200,height=200,dim=['','',''],group='C
 	color1= colormap[0]
 	color2= colormap[1]
 	if make_fig:
-		body="""<body>"""
-		body_post="""</body>"""
 		html="""<div id="chart_{num}"></div>""".format(num=figure)
-		display(HTML(body+html+body_post))
+		display(HTML(html))
 	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
 	end="""})"""
 	chart="""
