@@ -249,7 +249,7 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 
 def scatterPlot(figure=1,make_fig=False,width=200,height=200,dim=['',''],group='Count'\
 			,xlim=[0,100],ylim=[0,100],symbolSize=5,elasticY='true',transitionDuration=500,\
-			HorizontalGrid='true',VerticalGrid='true',xlabel='x',ylabel='y',yscale='linear'):
+			HorizontalGrid='true',VerticalGrid='true',xlabel='x',ylabel='y',xscale='linear',yscale='linear'):
 	x_min = xlim[0]
 	x_max = xlim[1]
 	y_min = ylim[0]
@@ -279,7 +279,7 @@ def scatterPlot(figure=1,make_fig=False,width=200,height=200,dim=['',''],group='
 		.dimension(dim)
 		.group(gp)
 		.transitionDuration({transitionDuration})
-		.x(d3.scale.{yscale}().domain([{x_min},{x_max}]))
+		.x(d3.scale.{xscale}().domain([{x_min},{x_max}]))
 		.y(d3.scale.{yscale}().domain([{y_min},{y_max}]))
 		.renderHorizontalGridLines({HorizontalGrid})
 		.renderVerticalGridLines({VerticalGrid})
@@ -311,6 +311,7 @@ def scatterPlot(figure=1,make_fig=False,width=200,height=200,dim=['',''],group='
 	.replace('{xlabel}',str(xlabel))\
 	.replace('{ylabel}',str(ylabel))\
 	.replace('{yscale}',yscale)\
+	.replace('{xscale}',xscale)\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
 
