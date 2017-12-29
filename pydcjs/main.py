@@ -452,8 +452,10 @@ def heatmap(figure=1,make_fig=False,width=200,height=200,dim=['','',''],group='C
 	color1= colormap[0]
 	color2= colormap[1]
 	if make_fig:
+		body="""<body>"""
+		body_post="""</body>"""
 		html="""<div id="chart_{num}"></div>""".format(num=figure)
-		display(HTML(html))
+		display(HTML(body+html+body_post))
 	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
 	end="""})"""
 	chart="""
