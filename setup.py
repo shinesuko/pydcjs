@@ -10,6 +10,6 @@ setup(
         license          = __license__,
         author           = __author__,
         url              = 'https://github.com/shinesuko/pydcjs',
-        packages         = find_packages(),
+        packages         = ['pydcjs'],
         install_requires = []
         )
