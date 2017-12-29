@@ -532,6 +532,3 @@ def check():
 	}
 	"""
 	display(Javascript(js))
-
-if __name__ == '__main__':
-	main()
