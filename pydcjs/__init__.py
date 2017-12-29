@@ -3,5 +3,5 @@
 from .main import *
 
 __author__  = 'Kozo Takeuchi'
-__version__ = '0.0.4'
+__version__ = '0.0.5'
 __license__ = 'MIT'
