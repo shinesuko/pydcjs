@@ -16,11 +16,10 @@ Jupyter notebook
 is conformed.
 
 ## Usage
-Git clone or download zip to your computer.
+`pip install -e git+https://github.com/shinesuko/pydcjs@master#egg=pydcjs`
+(Git for windows is required for Windows)
 Activate your python environment and jupyter notebook.  
-Add git folder path first in jupyter notebook like
 
-`import sys; import sys;sys.path.append('Your/folder/path')`  
 `import pydcjs as dcjs`  
 `import pandas as pd`  
 `%reload_ext autoreload`
