@@ -442,7 +442,7 @@ def rowChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
 
-def heatmap(figure=1,width=200,height=200,dim=['','',''],group='Count'\
+def heatmap(figure=1,make_fig=False,width=200,height=200,dim=['','',''],group='Count'\
 			,transitionDuration=500,xlabel='x',ylabel='y',clim=[0,100],colormap=['blue','red']):
 	dim1  = dim[0]
 	dim2  = dim[1]
@@ -451,6 +451,9 @@ def heatmap(figure=1,width=200,height=200,dim=['','',''],group='Count'\
 	clim2 = clim[1]
 	color1= colormap[0]
 	color2= colormap[1]
+	if make_fig:
+		html="""<div id="chart_{num}"></div>""".format(num=figure)
+		display(HTML(html))
 	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
 	end="""})"""
 	chart="""
@@ -522,21 +525,21 @@ def heatmap(figure=1,width=200,height=200,dim=['','',''],group='Count'\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
 
-	print chart\
-	.replace('{figure}',str(figure))\
-	.replace('{width}',str(width))\
-	.replace('{height}',str(height))\
-	.replace('{dim1}',str(dim1))\
-	.replace('{dim2}',str(dim2))\
-	.replace('{dim3}',str(dim3))\
-	.replace('{clim1}',str(clim1))\
-	.replace('{clim2}',str(clim2))\
-	.replace('{color1}',str(color1))\
-	.replace('{color2}',str(color2))\
-	.replace('{width}',str(width))\
-	.replace('{xlabel}',str(xlabel))\
-	.replace('{ylabel}',str(ylabel))\
-	.replace('{transitionDuration}',str(transitionDuration))
+	# print chart\
+	# .replace('{figure}',str(figure))\
+	# .replace('{width}',str(width))\
+	# .replace('{height}',str(height))\
+	# .replace('{dim1}',str(dim1))\
+	# .replace('{dim2}',str(dim2))\
+	# .replace('{dim3}',str(dim3))\
+	# .replace('{clim1}',str(clim1))\
+	# .replace('{clim2}',str(clim2))\
+	# .replace('{color1}',str(color1))\
+	# .replace('{color2}',str(color2))\
+	# .replace('{width}',str(width))\
+	# .replace('{xlabel}',str(xlabel))\
+	# .replace('{ylabel}',str(ylabel))\
+	# .replace('{transitionDuration}',str(transitionDuration))
 
 def check():
 	js="""
