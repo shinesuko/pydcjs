@@ -72,9 +72,9 @@ def pieChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 		html="""<div id="chart_{num}"></div>""".format(num=figure)
 		display(HTML(html))
 	chart="""
-	d3.select("#chart_{figure}")
-		.append("text")
-		.text("pieCart: {dim}");
+	//d3.select("#chart_{figure}")
+	//	.append("text")
+	//	.text("pieCart: {dim}");
 
 	var dim = cf.dimension(function(d) {
 	return d.{dim};
@@ -129,9 +129,9 @@ def barChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 		html="""<div id="chart_{num}"></div>""".format(num=figure)
 		display(HTML(html))
 	chart="""
-	d3.select("#chart_{figure}")
-		.append("text")
-		.text("barCart: {dim}");
+	//d3.select("#chart_{figure}")
+	//	.append("text")
+	//	.text("barCart: {dim}");
 	var dim = cf.dimension(function(d) {
 	return d.{dim};
 	});
@@ -197,9 +197,9 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 		html="""<div id="chart_{num}"></div>""".format(num=figure)
 		display(HTML(html))
 	chart="""
-	d3.select("#chart_{figure}")
-		.append("text")
-		.text("lineCart: {dim}");
+	//d3.select("#chart_{figure}")
+	//	.append("text")
+	//	.text("lineCart: {dim}");
 	var dim = cf.dimension(function(d) {
 	return d.{dim};
 	});
@@ -265,9 +265,9 @@ def scatterPlot(figure=1,make_fig=False,width=200,height=200,dim=['',''],group='
 		html="""<div id="chart_{num}"></div>""".format(num=figure)
 		display(HTML(html))
 	chart="""
-	d3.select("#chart_{figure}")
-		.append("text")
-		.text("scatterPlott: {dim1},{dim2}");
+	//d3.select("#chart_{figure}")
+	//	.append("text")
+	//	.text("scatterPlott: {dim1},{dim2}");
 	var dim = cf.dimension(function(d) {
 	return [d.{dim1}, d.{dim2}];
 	});
@@ -336,9 +336,9 @@ def bubbleChart(figure=1,make_fig=False,width=200,height=200,dim=['','',''],grou
 		html="""<div id="chart_{num}"></div>""".format(num=figure)
 		display(HTML(html))
 	chart="""
-	d3.select("#chart_{figure}")
-		.append("text")
-		.text("bubbleChart: {dim1},{dim2},{dim3}");
+	//d3.select("#chart_{figure}")
+	//	.append("text")
+	//	.text("bubbleChart: {dim1},{dim2},{dim3}");
 	var dim = cf.dimension(function(d) {
 	return [d.{dim1}, d.{dim2}, d.{dim3}];
 	});
@@ -405,10 +405,10 @@ def rowChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 		display(HTML(html))
 
 	chart="""
-	d3.select("#chart_{figure}")
-		.append("text")
-		.text("rowCart: {dim}")
-		.attr("id","chart_{figure}_text");
+	//d3.select("#chart_{figure}")
+	//	.append("text")
+	//	.text("rowCart: {dim}")
+	//	.attr("id","chart_{figure}_text");
 	var dim = cf.dimension(function(d) {
 	return d.{dim};
 	});
@@ -525,22 +525,6 @@ def heatmap(figure=1,make_fig=False,width=200,height=200,dim=['','',''],group='C
 	.replace('{ylabel}',str(ylabel))\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
-
-	# print chart\
-	# .replace('{figure}',str(figure))\
-	# .replace('{width}',str(width))\
-	# .replace('{height}',str(height))\
-	# .replace('{dim1}',str(dim1))\
-	# .replace('{dim2}',str(dim2))\
-	# .replace('{dim3}',str(dim3))\
-	# .replace('{clim1}',str(clim1))\
-	# .replace('{clim2}',str(clim2))\
-	# .replace('{color1}',str(color1))\
-	# .replace('{color2}',str(color2))\
-	# .replace('{width}',str(width))\
-	# .replace('{xlabel}',str(xlabel))\
-	# .replace('{ylabel}',str(ylabel))\
-	# .replace('{transitionDuration}',str(transitionDuration))
 
 def check():
 	js="""
