@@ -11,5 +11,5 @@ setup(
         author           = __author__,
         url              = 'https://github.com/shinesuko/pydcjs',
         packages         = find_packages(),
-        install_requires = [],
+        install_requires = []
         )
