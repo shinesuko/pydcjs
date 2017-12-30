@@ -570,7 +570,7 @@ def table(figure=1,make_fig=False,width=200,height=200,dim=[''],group='Count'\
 	+chart_pre\
 	.replace('{figure}',str(figure))\
 	.replace('{dim}',str(dim))\
-	+chart_+chart_post\
+	+chart+chart_post\
 	+end))
 
 def check():
