@@ -559,7 +559,7 @@ def table(figure=1,make_fig=False,width=200,height=200,dim=[''],group='Count'\
 	    })
 	    //.sortBy(function(d) { return +d.Spent; })
 	    .showGroups(false)"""
-	chart=".columns(["
+	chart=""".columns(["""
 	for ii in np.arange(1,n+1):
 		table+="""{name}""".format(name=dim[ii-1])
 		if ii!=n+1:
