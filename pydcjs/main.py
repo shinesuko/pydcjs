@@ -561,7 +561,7 @@ def table(figure=1,make_fig=False,width=200,height=200,dim=[''],group='Count'\
 	    .showGroups(false)"""
 	chart=""".columns(["""
 	for ii in np.arange(1,n+1):
-		chart+="""{name}""".format(name=dim[ii-1])
+		chart+="""{name}""".format(name=str(dim[ii-1]))
 		if ii!=n:
 			chart+=""","""
 	chart_post="""
