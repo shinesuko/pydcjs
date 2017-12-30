@@ -526,6 +526,53 @@ def heatmap(figure=1,make_fig=False,width=200,height=200,dim=['','',''],group='C
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
 
+def table(figure=1,make_fig=False,width=200,height=200,dim=[''],group='Count'\
+			,transitionDuration=500):
+	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
+	end="""})"""
+	n=len(dim)
+	if make_fig:
+		html="""<div id="chart_{num}"></div>""".format(num=figure)
+		display(HTML(html))
+	table_pre="""
+	 <table id="test">
+        <thead>
+            <tr>"""
+	table=""
+	for ii in np.arange(1,n+1):
+		table+="""<th>{num}</th>""".format(num=dim[ii-1])
+
+	table_post="""
+            </tr>
+        </thead></table>"""
+   	display(HTML(table_pre+table+table_post))
+	chart_pre="""
+	var dim = cf.dimension(function(d) {
+	return d.{dim};
+	});
+	var gp = dim.group().reduceCount();
+	var chart_{figure}_obj = dc.dataTable('#chart_{figure}');
+	chart_{figure}_obj
+		.dimension(dim)
+	    .group(function(d) {
+	        return d.value;
+	    })
+	    //.sortBy(function(d) { return +d.Spent; })
+	    .showGroups(false)"""
+	chart=".columns(["
+	for ii in np.arange(1,n+1):
+		table+="""{name},""".format(name=dim[ii-1])
+	chart_post="""
+	              }]);
+	dc.renderAll();
+	"""
+	display(Javascript(begin\
+	+chart_pre\
+	.replace('{figure}',str(figure))\
+	.replace('{dim}',str(dim))\
+	+chart_+chart_post\
+	+end))
+
 def check():
 	js="""
 	if (typeof window.cf !== 'undefined') {
