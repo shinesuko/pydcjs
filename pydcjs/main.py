@@ -548,7 +548,7 @@ def table(figure=1,make_fig=False,width=200,height=200,dim=[''],group='Count'\
    	display(HTML(table_pre+table+table_post))
 	chart_pre="""
 	var dim = cf.dimension(function(d) {
-	return d.{dim[0]};
+	return d.{dim};
 	});
 	var gp = dim.group().reduceCount();
 	var chart_{figure}_obj = dc.dataTable('#chart_{figure}');
@@ -571,7 +571,7 @@ def table(figure=1,make_fig=False,width=200,height=200,dim=[''],group='Count'\
 	print(begin\
 	+chart_pre\
 	.replace('{figure}',str(figure))\
-	.replace('{dim}',str(dim))\
+	.replace('{dim}',str(dim[0]))\
 	+chart+chart_post\
 	+end)
 	display(Javascript(begin\
