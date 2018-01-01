@@ -551,7 +551,7 @@ def table(figure=1,make_fig=False,width=200,height=200,dim=[''],group='Count'\
 	return d.{dim};
 	});
 	var gp = dim.group().reduceCount();
-	var chart_{figure}_obj = dc.dataTable('#chart_{figure}');
+	var chart_{figure}_obj = dc.dataTable('#test');
 	chart_{figure}_obj
 		.dimension(dim)
 	    .group(function(d) {
