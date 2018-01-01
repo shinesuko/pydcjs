@@ -526,14 +526,14 @@ def heatmap(figure=1,make_fig=False,width=200,height=200,dim=['','',''],group='C
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
 
-def table(figure=1,make_fig=False,width=200,height=200,dim=[''],group='Count'\
+def table(figure=1,make_fig=True,width=200,height=200,dim=[''],group='Count'\
 			,transitionDuration=500):
 	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
 	end="""})"""
 	n=len(dim)
-	if make_fig:
-		html="""<div id="chart_{num}"></div>""".format(num=figure)
-		display(HTML(html))
+	# if make_fig:
+	html="""<div id="chart_{num}">""".format(num=figure)
+	# display(HTML(html))
 	table_pre="""
 	 <table id="test">
         <thead>
@@ -544,8 +544,8 @@ def table(figure=1,make_fig=False,width=200,height=200,dim=[''],group='Count'\
 
 	table_post="""
             </tr>
-        </thead></table>"""
-   	display(HTML(table_pre+table+table_post))
+        </thead></table></div>"""
+   	display(HTML(html+table_pre+table+table_post))
 	chart_pre="""
 	var dim = cf.dimension(function(d) {
 	return d.{dim};
