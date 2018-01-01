@@ -591,3 +591,11 @@ def check():
 	}
 	"""
 	display(Javascript(js))
+
+def add_reset():
+	html="""
+	<a href="javascript:
+	require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {
+	dc.filterAll(); dc.renderAll();
+	})">Reset All</a>"""
+	display(HTML(html))
