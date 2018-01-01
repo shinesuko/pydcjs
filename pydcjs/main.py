@@ -569,16 +569,16 @@ def table(figure=1,make_fig=False,width=200,height=200,dim=[''],group='Count'\
 	              ]);
 	dc.renderAll();
 	"""
-	print(begin\
-	+chart_pre\
-	.replace('{figure}',str(figure))\
-	.replace('{dim}',str(dim[0]))\
-	+chart+chart_post\
-	+end)
+	# print(begin\
+	# +chart_pre\
+	# .replace('{figure}',str(figure))\
+	# .replace('{dim}',str(dim[0]))\
+	# +chart+chart_post\
+	# +end)
 	display(Javascript(begin\
 	+chart_pre\
 	.replace('{figure}',str(figure))\
-	.replace('{dim}',str(dim))\
+	.replace('{dim}',str(dim[0]))\
 	+chart+chart_post\
 	+end))
 
