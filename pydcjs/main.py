@@ -558,7 +558,7 @@ def table(figure=1,make_fig=False,width=200,height=200,dim=[''],group='Count'\
 	        return d.value;
 	    })
 	    //.sortBy(function(d) { return +d.Spent; })
-	    .showGroups(false);"""
+	    .showGroups(false)"""
 	chart=""".columns(["""
 	for ii in np.arange(1,n+1):
 		chart+="""{name}""".format(name=str(dim[ii-1]))
@@ -579,7 +579,7 @@ def table(figure=1,make_fig=False,width=200,height=200,dim=[''],group='Count'\
 	+chart_pre\
 	.replace('{figure}',str(figure))\
 	.replace('{dim}',str(dim))\
-	# +chart+chart_post\
+	+chart+chart_post\
 	+end))
 
 def check():
