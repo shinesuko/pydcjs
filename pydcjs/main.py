@@ -534,7 +534,6 @@ def table(figure=1,make_fig=True,width=200,height=200,dim=[''],group='Count'\
         </thead></table></div>"""
    	display(HTML(html+table_pre+table+table_post))
 	chart_pre="""
-	.text("pieCart: {dim}");
 	var dim = cf.dimension(function(d) {
 	return d.{dim};
 	});
