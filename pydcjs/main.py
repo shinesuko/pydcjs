@@ -458,6 +458,7 @@ def heatmap(figure=1,make_fig=False,width=200,height=200,dim=['','',''],group='C
 	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
 	end="""})"""
 	chart="""
+	d3.select("#chart_{num}").append("p").text("heatma: {dim1},{dim2},{dim3}");
 	var dim = cf.dimension(function(d) {
 	return [d.{dim1}, d.{dim2}];
 	});
