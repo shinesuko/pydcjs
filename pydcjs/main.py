@@ -191,18 +191,23 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 	if make_fig:
 		html="""<div id="chart_{num}"></div>""".format(num=figure)
 		display(HTML(html))
+	if group=='Count':
+		gp="""dim.group().reduceCount();"""
+	else:
+		gp="""dim.group().reduceSum(function (d) {
+        return d."""+str(group)+""";"""
 	chart="""
 	d3.select("#chart_{figure}").append("p").text("lineCart: {dim}");
 	var dim = cf.dimension(function(d) {
 	return d.{dim};
 	});
-	var gp = dim.group().reduceCount();
+	//var gp = dim.group().reduceCount();
 	var chart_{figure}_obj = dc.lineChart('#chart_{figure}');
 	chart_{figure}_obj
 		.width({width})
 		.height({height})
 		.dimension(dim)
-		.group(gp)
+		.group({gp})
 		.transitionDuration({transitionDuration})
 		.x(d3.scale.linear().domain([{x_min},{x_max}]))
 		.y(d3.scale.linear().domain([{y_min},{y_max}]))
@@ -222,6 +227,7 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 	+chart\
 	.replace('{figure}',str(figure))\
 	.replace('{dim}',str(dim))\
+	.replace('{gp}',gp)\
 	.replace('{width}',str(width))\
 	.replace('{height}',str(height))\
 	.replace('{x_min}',str(x_min))\
