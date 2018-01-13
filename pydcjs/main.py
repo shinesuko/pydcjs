@@ -181,6 +181,10 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 			,elasticX='true',elasticY='true',transitionDuration=500,\
 			HorizontalGrid='true',VerticalGrid='true',renderArea='false'\
 			,xscale='linear',yscale='linear'):
+	if len(dim)==1:
+		dimension="""d.{dim}""".format(dim=dim)
+	else:
+		dimension="""[d.{dim1}, d.{dim2}]""".format(dim1=fdim[0],dim2=dim[1])
 	x_min=xlim[0]
 	x_max=xlim[1]
 	y_min=ylim[0]
@@ -200,7 +204,7 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 	chart="""
 	d3.select("#chart_{figure}").append("p").text("lineCart: {dim}");
 	var dim = cf.dimension(function(d) {
-	return d.{dim};
+	return {dim};
 	});
 	var chart_{figure}_obj = dc.lineChart('#chart_{figure}');
 	chart_{figure}_obj
@@ -227,7 +231,7 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 	display(Javascript(begin\
 	+chart\
 	.replace('{figure}',str(figure))\
-	.replace('{dim}',str(dim))\
+	.replace('{dim}',str(dimension))\
 	.replace('{gp}',str(gp))\
 	.replace('{width}',str(width))\
 	.replace('{height}',str(height))\
