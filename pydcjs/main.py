@@ -210,7 +210,7 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 	chart="""
 	d3.select("#chart_{figure}").append("p").text("lineCart: {dim}");
 	var dim = cf.dimension(function(d) {
-	return {dim};
+	return d.{dim};
 	});
 	var chart_{figure}_obj = dc.lineChart('#chart_{figure}');
 	chart_{figure}_obj
