@@ -192,7 +192,7 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 		html="""<div id="chart_{num}"></div>""".format(num=figure)
 		display(HTML(html))
 	if group=='Count':
-		gp="""dim.group().reduceCount();"""
+		gp="""dim.group().reduceCount()"""
 		print 'count'
 	else:
 		gp="""dim.group().reduceSum(function (d) {
