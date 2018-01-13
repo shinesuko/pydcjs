@@ -198,15 +198,10 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 		# gp="""dim.group(function (d) {
 		# return d."""+str(group)+""";})"""
 		gp="""dim.group().reduce(
-		function(p, v) { // add
-        	return v.{group};
-    	},
-    	function(p, v) { // remove
-        	return v.{group};
-    	},
-    	function() { // initial
-        	return {};
-    	});""".format('group',group)
+		function(p, v) {return v.{group};},
+    	function(p, v) {return v.{group};},
+    	function() {return {};});""".format('group',group)
+	print gp
 	chart="""
 	d3.select("#chart_{figure}").append("p").text("lineCart: {dim}");
 	var dim = cf.dimension(function(d) {
