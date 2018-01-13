@@ -192,11 +192,11 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 		html="""<div id="chart_{num}"></div>""".format(num=figure)
 		display(HTML(html))
 	if group=='Count':
-		gp="dim.group().reduceCount();"
+		gp="""dim.group().reduceCount();"""
 		print 'count'
 	else:
-		gp="dim.group().reduceSum(function (d) {
-        return d."+str(group)+";})"
+		gp="""dim.group().reduceSum(function (d) {
+		return d."""+str(group)+""";})"""
 	chart="""
 	d3.select("#chart_{figure}").append("p").text("lineCart: {dim}");
 	var dim = cf.dimension(function(d) {
@@ -223,28 +223,6 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 		//.elasticX({elasticX});
 	dc.renderAll();
 	"""
-	display(Javascript(begin\
-	+chart\
-	.replace('{figure}',str(figure))\
-	.replace('{dim}',str(dim))\
-	.replace('{gp}',str(gp))\
-	.replace('{width}',str(width))\
-	.replace('{height}',str(height))\
-	.replace('{x_min}',str(x_min))\
-	.replace('{x_max}',str(x_max))\
-	.replace('{y_min}',str(y_min))\
-	.replace('{y_max}',str(y_max))\
-	.replace('{VerticalGrid}',VerticalGrid)\
-	.replace('{HorizontalGrid}',HorizontalGrid)\
-	.replace('{renderArea}',renderArea)\
-	#.replace('{xticks}',str(xticks))\
-	#.replace('{yticks}',str(yticks))\
-	.replace('{xlabel}',xlabel)\
-	.replace('{ylabel}',ylabel)\
-	#.replace('{elasticX}',elasticX)\
-	.replace('{elasticY}',elasticY)\
-	.replace('{transitionDuration}',str(transitionDuration))\
-	+end))
 
 	print (begin\
 	+chart\
@@ -268,6 +246,30 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 	.replace('{elasticY}',elasticY)\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end)
+
+	display(Javascript(begin\
+	+chart\
+	.replace('{figure}',str(figure))\
+	.replace('{dim}',str(dim))\
+	.replace('{gp}',str(gp))\
+	.replace('{width}',str(width))\
+	.replace('{height}',str(height))\
+	.replace('{x_min}',str(x_min))\
+	.replace('{x_max}',str(x_max))\
+	.replace('{y_min}',str(y_min))\
+	.replace('{y_max}',str(y_max))\
+	.replace('{VerticalGrid}',VerticalGrid)\
+	.replace('{HorizontalGrid}',HorizontalGrid)\
+	.replace('{renderArea}',renderArea)\
+	#.replace('{xticks}',str(xticks))\
+	#.replace('{yticks}',str(yticks))\
+	.replace('{xlabel}',xlabel)\
+	.replace('{ylabel}',ylabel)\
+	#.replace('{elasticX}',elasticX)\
+	.replace('{elasticY}',elasticY)\
+	.replace('{transitionDuration}',str(transitionDuration))\
+	+end))
+
 
 def scatterPlot(figure=1,make_fig=False,width=200,height=200,dim=['',''],group='Count'\
 			,xlim=[0,100],ylim=[0,100],symbolSize=5,elasticY='true',transitionDuration=500,\
