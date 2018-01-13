@@ -179,7 +179,8 @@ def barChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 			,xlim=[0,100],ylim=[0,100],xticks=5,yticks=5,xlabel=' ',ylabel=' '\
 			,elasticX='true',elasticY='true',transitionDuration=500,\
-			HorizontalGrid='true',VerticalGrid='true',renderArea='false'):
+			HorizontalGrid='true',VerticalGrid='true',renderArea='false'\
+			,xscale='linear',yscale='linear'):
 	x_min=xlim[0]
 	x_max=xlim[1]
 	y_min=ylim[0]
@@ -209,8 +210,8 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 		.dimension(dim)
 		.group({gp})
 		.transitionDuration({transitionDuration})
-		.x(d3.scale.linear().domain([{x_min},{x_max}]))
-		.y(d3.scale.linear().domain([{y_min},{y_max}]))
+		.x(d3.scale.{xscale}().domain([{x_min},{x_max}]))
+		.y(d3.scale.{yscale}().domain([{y_min},{y_max}]))
 		.renderHorizontalGridLines({HorizontalGrid})
 		.renderVerticalGridLines({VerticalGrid})
 		.renderArea({renderArea})
@@ -231,6 +232,8 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 	.replace('{gp}',str(gp))\
 	.replace('{width}',str(width))\
 	.replace('{height}',str(height))\
+	.replace('{xscale}',str(xscale))\
+	.replace('{yscale}',str(yscale))\
 	.replace('{x_min}',str(x_min))\
 	.replace('{x_max}',str(x_max))\
 	.replace('{y_min}',str(y_min))\
