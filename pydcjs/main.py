@@ -213,6 +213,7 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 		.dimension(dim)
 		.group({gp})
 		.transitionDuration({transitionDuration})
+		.valueAccessor(function(d){return d.key[1];})
 		.x(d3.scale.{xscale}().domain([{x_min},{x_max}]))
 		.y(d3.scale.{yscale}().domain([{y_min},{y_max}]))
 		.renderHorizontalGridLines({HorizontalGrid})
