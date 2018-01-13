@@ -184,7 +184,7 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 	if len(dim)==1:
 		dimension="""d.{dim}""".format(dim=dim)
 	else:
-		dimension="""[d.{dim1}, d.{dim2}]""".format(dim1=fdim[0],dim2=dim[1])
+		dimension="""[d.{dim1}, d.{dim2}]""".format(dim1=dim[0],dim2=dim[1])
 	x_min=xlim[0]
 	x_max=xlim[1]
 	y_min=ylim[0]
