@@ -195,7 +195,7 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 		gp="""dim.group().reduceCount();"""
 	else:
 		gp="""dim.group().reduceSum(function (d) {
-        return d."""+str(group)+""";"""
+        return d."""+str(group)+""";})"""
 	chart="""
 	d3.select("#chart_{figure}").append("p").text("lineCart: {dim}");
 	var dim = cf.dimension(function(d) {
