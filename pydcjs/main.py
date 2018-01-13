@@ -224,29 +224,6 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 	dc.renderAll();
 	"""
 
-	print (begin\
-	+chart\
-	.replace('{figure}',str(figure))\
-	.replace('{dim}',str(dim))\
-	.replace('{gp}',str(gp))\
-	.replace('{width}',str(width))\
-	.replace('{height}',str(height))\
-	.replace('{x_min}',str(x_min))\
-	.replace('{x_max}',str(x_max))\
-	.replace('{y_min}',str(y_min))\
-	.replace('{y_max}',str(y_max))\
-	.replace('{VerticalGrid}',VerticalGrid)\
-	.replace('{HorizontalGrid}',HorizontalGrid)\
-	.replace('{renderArea}',renderArea)\
-	#.replace('{xticks}',str(xticks))\
-	#.replace('{yticks}',str(yticks))\
-	.replace('{xlabel}',xlabel)\
-	.replace('{ylabel}',ylabel)\
-	#.replace('{elasticX}',elasticX)\
-	.replace('{elasticY}',elasticY)\
-	.replace('{transitionDuration}',str(transitionDuration))\
-	+end)
-
 	display(Javascript(begin\
 	+chart\
 	.replace('{figure}',str(figure))\
