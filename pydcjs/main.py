@@ -202,7 +202,6 @@ def lineChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 	var dim = cf.dimension(function(d) {
 	return d.{dim};
 	});
-	//var gp = dim.group().reduceCount();
 	var chart_{figure}_obj = dc.lineChart('#chart_{figure}');
 	chart_{figure}_obj
 		.width({width})
