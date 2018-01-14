@@ -49,12 +49,12 @@ def test():
 def set_df(df):
 	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
 	js="""
-	if (typeof window.cf !== 'undefined') {
-	} else {
+	//if (typeof window.cf !== 'undefined') {
+	//} else {
 	window.cfdata={data}
 	window.cf = crossfilter(cfdata);
 	console.log(cfdata)
-	}
+	//}
 	"""
 	end="""})"""
 	display(Javascript(begin\
