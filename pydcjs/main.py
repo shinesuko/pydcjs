@@ -611,5 +611,5 @@ def exe_js(js=''):
 	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
 	end="""})"""
 	display(Javascript(begin\
-	+js
+	+js\
 	+end))
