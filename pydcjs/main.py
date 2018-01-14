@@ -606,3 +606,10 @@ def add_reset():
 	dc.filterAll(); dc.renderAll();
 	})">Reset All</a>"""
 	display(HTML(html))
+
+def exe_js(js=''):
+	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
+	end="""})"""
+	display(Javascript(begin\
+	+js
+	+end))
