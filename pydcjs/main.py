@@ -4,22 +4,39 @@ import pandas as pd
 from IPython.display import HTML, Javascript, display
 import numpy as np
 
-def load_js():
-	display(Javascript("""require.config({
-    paths: {
-        'd3': 'https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min',
-        'crossfilter': 'https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min',
-        'dc': 'https://cdnjs.cloudflare.com/ajax/libs/dc/2.0.0-beta.32/dc',
-    },
-    shim: {
-        'crossfilter': {
-            deps: [],
-            exports: 'crossfilter'
-        }
-    }
-    });"""),
-    HTML('<link href="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.min.css" rel="stylesheet" type="text/css">'),
-    HTML('<link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/components/grid.min.css" rel="stylesheet" type="text/css">'))
+def load_js(online=True):
+	if online:
+		display(Javascript("""require.config({
+	    paths: {
+	        'd3': 'https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min',
+	        'crossfilter': 'https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min',
+	        'dc': 'https://cdnjs.cloudflare.com/ajax/libs/dc/2.0.0-beta.32/dc',
+	    },
+	    shim: {
+	        'crossfilter': {
+	            deps: [],
+	            exports: 'crossfilter'
+	        }
+	    }
+	    });"""),
+	    HTML('<link href="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.min.css" rel="stylesheet" type="text/css">'),
+	    HTML('<link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/components/grid.min.css" rel="stylesheet" type="text/css">'))
+	else:
+		display(Javascript("""require.config({
+	    paths: {
+	        'd3': '../src/d3.min',
+	        'crossfilter': '../src/crossfilter.min',
+	        'dc': '../src/dc',
+	    },
+	    shim: {
+	        'crossfilter': {
+	            deps: [],
+	            exports: 'crossfilter'
+	        }
+	    }
+	    });"""),
+	    HTML('<link href="../src/dc.min.css" rel="stylesheet" type="text/css">'),
+	    HTML('<link href="../src/grid.min.css" rel="stylesheet" type="text/css">'))
 
 def figure(n=4):
 	html=""
