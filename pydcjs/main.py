@@ -129,6 +129,62 @@ def pieChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
 
+def boxplot(figure=1,make_fig=False,width=200,height=200,dim='',group=''\
+			,boxwidth=30,transitionDuration=500):
+	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
+	end="""})"""
+	#print(js.replace('{data}',df.reset_index().to_json(orient='records')))
+	#print(js)
+	if make_fig:
+		html="""<div id="chart_{num}"></div>""".format(num=figure)
+		display(HTML(html))
+	chart="""
+	d3.select("#chart_{figure}").append("p").text("boxplot: {dim}");
+	var dim = cf.dimension(function(d) {
+	return d.{dim};
+	});
+	var gp= dim.group().reduce(
+			  function(p,v) {
+			    p.push(v.{group});
+			    return p;
+			  },
+			  function(p,v) {
+			    p.splice(p.indexOf(v.{group}), 1);
+			    return p;
+			  },
+			  function() {
+			    return [];
+			  }
+			);
+
+	var chart_{figure}_obj = dc.boxPlot('#chart_{figure}');
+	chart_{figure}_obj
+		.width({width})
+		.height({height})
+		.dimension(dim)
+		.group(gp)
+		.boxWidth({boxwidth})
+		.transitionDuration(500)
+		.ordering(function(t){
+		return -t.value;
+		})
+		.legend(dc.legend())
+		.label(function(d) {
+		return d.key + ': ' + d.value;
+		})
+		.render();
+	"""
+	display(Javascript(begin\
+	+chart\
+	.replace('{figure}',str(figure))\
+	.replace('{dim}',str(dim))\
+	.replace('{group}',str(group))\
+	.replace('{width}',str(width))\
+	.replace('{height}',str(height))\
+	.replace('{boxwidth}',str(boxwidth))\
+	.replace('{transitionDuration}',str(transitionDuration))\
+	+end))
+
 def barChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 			,centerBar='true',xlim=[0,100],ylim=[0,100],gap=10,xticks=5,yticks=5,xlabel=' ',ylabel=' ',elasticX='true',elasticY='true',transitionDuration=500,HorizontalGrid='true',VerticalGrid='true'):
 	x_min=xlim[0]
