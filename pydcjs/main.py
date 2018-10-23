@@ -165,6 +165,7 @@ def boxplot(figure=1,make_fig=False,width=200,height=200,dim='',group=''\
 		.group(gp)
 		.boxWidth({boxwidth})
 		.transitionDuration(500)
+		.elasticY(true)
 		.ordering(function(t){
 		return -t.value;
 		})
