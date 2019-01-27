@@ -38,12 +38,15 @@ def load_js(online=True):
 	    HTML('<link href="../src/dc.min.css" rel="stylesheet" type="text/css">'),
 	    HTML('<link href="../src/grid.min.css" rel="stylesheet" type="text/css">'))
 
-def figure(n=4):
+def figure(n=4,list=True):
 	html=""
-	for ii in np.arange(1,n+1):
-		html+="""<div id="chart_{num}"></div>""".format(num=ii)
-	#print "figure"+str(ii)
-	#print body+html+body_post
+	if list:
+		for ii in np.arange(1,n+1):
+			html+="""<div id="chart_{num}"></div>""".format(num=ii)
+		#print "figure"+str(ii)
+		#print body+html+body_post
+	else:
+		html+="""<div id="chart_{num}"></div>""".format(num=n)
 	display(HTML(html))
 
 def test():
