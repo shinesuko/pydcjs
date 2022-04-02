@@ -80,7 +80,7 @@ def set_df(df):
 	display(Javascript(begin\
 	+js.replace('{data}',df.reset_index().to_json(orient='records'))\
 	+end))
-	print df.columns
+	print(df.columns)
 
 def pieChart(figure=1,make_fig=False,width=200,height=200,dim='',group='Count'\
 			,cx=100,cy=100,innerRadius=10,slicesCap=5,transitionDuration=500,radius=100):
