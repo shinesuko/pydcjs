@@ -626,10 +626,10 @@ def table(figure=1,make_fig=True,width=200,height=200,dim=[''],group='Count'\
 	for ii in np.arange(1,n+1):
 		table+="""<th>{num}</th>""".format(num=dim[ii-1])
 
-	table_post="""
-	</tr>
-        </thead></table></div>"""
+	table_post="""</tr></thead></table></div>"""
+	
    	display(HTML(html+table_pre+table+table_post))
+	
 	chart_pre="""
 	var dim = cf.dimension(function(d) {
 	return d.{dim};
