@@ -610,61 +610,61 @@ def heatmap(figure=1,make_fig=False,width=200,height=200,dim=['','',''],group='C
 	.replace('{transitionDuration}',str(transitionDuration))\
 	+end))
 
-def table(figure=1,make_fig=True,width=200,height=200,dim=[''],group='Count'\
-			,transitionDuration=500):
-	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
-	end="""})"""
-	n=len(dim)
-	# if make_fig:
-	html="""<div id="chart_{num}">""".format(num=figure)
-	# display(HTML(html))
-	table_pre="""
-	 <table id="test">
-        <thead>
-            <tr>"""
-	table=""
-	for ii in np.arange(1,n+1):
-		table+="""<th>{num}</th>""".format(num=dim[ii-1])
+# def table(figure=1,make_fig=True,width=200,height=200,dim=[''],group='Count'\
+# 			,transitionDuration=500):
+# 	begin="""require(['d3', 'crossfilter', 'dc'], function(d3, crossfilter, dc) {"""
+# 	end="""})"""
+# 	n=len(dim)
+# 	# if make_fig:
+# 	html="""<div id="chart_{num}">""".format(num=figure)
+# 	# display(HTML(html))
+# 	table_pre="""
+# 	 <table id="test">
+#         <thead>
+#             <tr>"""
+# 	table=""
+# 	for ii in np.arange(1,n+1):
+# 		table+="""<th>{num}</th>""".format(num=dim[ii-1])
 
-	table_post="""</tr></thead></table></div>"""
+# 	table_post="""</tr></thead></table></div>"""
 	
-   	display(HTML(html+table_pre+table+table_post))
+#    	display(HTML(html+table_pre+table+table_post))
 	
-	chart_pre="""
-	var dim = cf.dimension(function(d) {
-	return d.{dim};
-	});
-	var gp = dim.group().reduceCount();
-	var chart_{figure}_obj = dc.dataTable('#test');
-	chart_{figure}_obj
-		.dimension(dim)
-	    .group(function(d) {
-	        return d.value;
-	    })
-	    //.sortBy(function(d) { return +d.Spent; })
-	    .showGroups(false)"""
-	chart=""".columns(["""
-	for ii in np.arange(1,n+1):
-		chart+="""'{name}'""".format(name=str(dim[ii-1]))
-		if ii!=n:
-			chart+=""","""
+# 	chart_pre="""
+# 	var dim = cf.dimension(function(d) {
+# 	return d.{dim};
+# 	});
+# 	var gp = dim.group().reduceCount();
+# 	var chart_{figure}_obj = dc.dataTable('#test');
+# 	chart_{figure}_obj
+# 		.dimension(dim)
+# 	    .group(function(d) {
+# 	        return d.value;
+# 	    })
+# 	    //.sortBy(function(d) { return +d.Spent; })
+# 	    .showGroups(false)"""
+# 	chart=""".columns(["""
+# 	for ii in np.arange(1,n+1):
+# 		chart+="""'{name}'""".format(name=str(dim[ii-1]))
+# 		if ii!=n:
+# 			chart+=""","""
 
-	chart_post="""
-	              ]);
-	dc.renderAll();
-	"""
-	# print(begin\
-	# +chart_pre\
-	# .replace('{figure}',str(figure))\
-	# .replace('{dim}',str(dim[0]))\
-	# +chart+chart_post\
-	# +end)
-	display(Javascript(begin\
-	+chart_pre\
-	.replace('{figure}',str(figure))\
-	.replace('{dim}',str(dim[0]))\
-	+chart+chart_post\
-	+end))
+# 	chart_post="""
+# 	              ]);
+# 	dc.renderAll();
+# 	"""
+# 	# print(begin\
+# 	# +chart_pre\
+# 	# .replace('{figure}',str(figure))\
+# 	# .replace('{dim}',str(dim[0]))\
+# 	# +chart+chart_post\
+# 	# +end)
+# 	display(Javascript(begin\
+# 	+chart_pre\
+# 	.replace('{figure}',str(figure))\
+# 	.replace('{dim}',str(dim[0]))\
+# 	+chart+chart_post\
+# 	+end))
 
 def check():
 	js="""
