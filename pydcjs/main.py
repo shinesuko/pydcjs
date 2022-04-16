@@ -355,7 +355,7 @@ def scatterPlot(figure=1,make_fig=False,width=200,height=200,dim=['',''],group='
 		html="""<div id="chart_{num}"></div>""".format(num=figure)
 		display(HTML(html))
 	chart="""
-	d3.select("#chart_{figure}").append("p").text("scatterPlott: {dim1},{dim2}");
+	d3.select("#chart_{figure}").append("p").text("scatterPlot: {dim1},{dim2}");
 	var dim = cf.dimension(function(d) {
 	return [d.{dim1}, d.{dim2}];
 	});
